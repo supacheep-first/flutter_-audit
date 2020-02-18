@@ -20,8 +20,10 @@ class MainTabBar extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              MyHomePage(),
-              InputPage(),
+              Scaffold(
+                body: InputFrom(),
+              ),
+              MyHomePage()
             ],
           ),
         ),
