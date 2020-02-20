@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:myapp/blocs/bloc_input.dart';
+import 'package:myapp/blocs/bloc_provider.dart';
 
 class InputPage extends StatelessWidget {
   @override
@@ -18,51 +19,42 @@ class InputFrom extends StatefulWidget {
 }
 
 class _InputFromState extends State<InputFrom> {
-  final myController = TextEditingController();
-  final myController2 = TextEditingController();
-
-  @override
-  void dispose() {
-    // Clean up the controller when the widget is disposed.
-    myController.dispose();
-    myController2.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
+    // like a service.
+    BlocInput blocInput = BlocProvider.of(context);
+
     return Scaffold(
-      body: Padding(
-          padding: EdgeInsets.all(100),
-          child: new Column(
+      body: Center(
+        child: Container(
+          child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
-              Expanded(
-                  flex: 2,
-                  child: new TextField(
-                    decoration: const InputDecoration(
-                      labelText: 'จำนวนเงิน'
-                    ),
-                    keyboardType: TextInputType.number,
-                    textAlign: TextAlign.end,
-                    controller: myController,
-                  )),
-              Expanded(
-                  flex: 10,
-                  child: new TextField(
-                    controller: myController2,
-                  ))
+              new TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'จำนวนเงิน'),
+                keyboardType: TextInputType.number,
+                textAlign: TextAlign.end,
+                onChanged: (value) => blocInput.submitAmt(value),
+              ),
+              new TextField(
+                decoration: const InputDecoration(
+                    border: OutlineInputBorder(), labelText: 'รายละเอียด'),
+                onChanged: (value) => blocInput.submitDetail(value),
+              ),
+              StreamBuilder(
+                stream: blocInput.amtController.stream,
+                initialData: '',
+                builder: (context, snapshot){
+                  return Text(snapshot.data.toString());
+                },
+              )
             ],
-          )),
+          ),
+        ),
+      ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Scaffold.of(context).showSnackBar(SnackBar(
-              content: Text(
-                  myController2.text == '' ? 'Save.' : myController2.text)));
-
-          myController.clear();
-          myController2.clear();
-        },
+        onPressed: () {},
         child: Icon(Icons.add),
       ),
     );

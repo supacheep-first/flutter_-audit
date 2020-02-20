@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/blocs/bloc_counter.dart';
+import 'package:myapp/blocs/bloc_input.dart';
 import 'package:myapp/blocs/bloc_provider.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -20,6 +21,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
     // like a service.
     BlocCounter blocCounter = BlocProvider.of(context);
+    // BlocInput a = BlocProvider.of(context);
 
     return Scaffold(
       body: Center(

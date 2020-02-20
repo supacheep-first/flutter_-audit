@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:myapp/blocs/bloc_counter.dart';
+import 'package:myapp/blocs/bloc_input.dart';
+import 'package:myapp/blocs/bloc_provider.dart';
 import 'package:myapp/page/counter_page.dart';
 import 'package:myapp/page/input_page.dart';
 
@@ -20,10 +23,11 @@ class MainTabBar extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Scaffold(
-                body: InputFrom(),
+              BlocProvider(
+                child: InputFrom(),
+                bloc: BlocInput(),
               ),
-              MyHomePage()
+              BlocProvider(child: MyHomePage(), bloc: BlocCounter())
             ],
           ),
         ),
